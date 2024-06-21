@@ -1,0 +1,89 @@
+{
+  "testRunner": {
+    "args": {
+      "$0": "jest",
+      "config": "./jest.config.json"
+    },
+    "jest": {
+      "setupTimeout": 120000
+    }
+  },
+  "apps": {
+    "ios.debug": {
+      "type": "ios.app",
+      "build": "cd ../../apps/monorepo/ios && xcodebuild -workspace Monorepo.xcworkspace -scheme Monorepo -configuration Debug -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14' -derivedDataPath ./build -quiet",
+      "binaryPath": "../../apps/monorepo/ios/build/Build/Products/Debug-iphonesimulator/Monorepo.app"
+    },
+    "ios.release": {
+      "type": "ios.app",
+      "build": "cd ../../apps/monorepo/ios && xcodebuild -workspace Monorepo.xcworkspace -scheme Monorepo -configuration Release -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14' -derivedDataPath ./build -quiet",
+      "binaryPath": "../../apps/monorepo/ios/build/Build/Products/Release-iphonesimulator/Monorepo.app"
+    },
+
+    "ios.local": {
+      "type": "ios.app",
+      "build": "npx nx run monorepo:build --platform ios --profile preview --wait --local --no-interactive --output=../../apps/monorepo/dist/Monorepo.tar.gz",
+      "binaryPath": "../../apps/monorepo/dist/Monorepo.app"
+    },
+
+    "android.debug": {
+      "type": "android.apk",
+      "build": "cd ../../apps/monorepo/android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug",
+      "binaryPath": "../../apps/monorepo/android/app/build/outputs/apk/debug/app-debug.apk"
+    },
+    "android.release": {
+      "type": "android.apk",
+      "build": "cd ../../apps/monorepo/android && ./gradlew assembleRelease assembleAndroidTest -DtestBuildType=release",
+      "binaryPath": "../../apps/monorepo/android/app/build/outputs/apk/release/app-release.apk"
+    },
+
+    "android.local": {
+      "type": "android.apk",
+      "build": "npx nx run monorepo:build --platform android --profile preview --wait --local --no-interactive --output=../../apps/monorepo/dist/Monorepo.apk",
+      "binaryPath": "../../apps/monorepo/dist/Monorepo.apk"
+    }
+  },
+  "devices": {
+    "simulator": {
+      "type": "ios.simulator",
+      "device": {
+        "type": "iPhone 14"
+      }
+    },
+    "emulator": {
+      "type": "android.emulator",
+      "device": {
+        "avdName": "Pixel_4a_API_30"
+      }
+    }
+  },
+  "configurations": {
+    "ios.sim.release": {
+      "device": "simulator",
+      "app": "ios.release"
+    },
+    "ios.sim.debug": {
+      "device": "simulator",
+      "app": "ios.debug"
+    },
+
+    "ios.sim.local": {
+      "device": "simulator",
+      "app": "ios.local"
+    },
+
+    "android.emu.release": {
+      "device": "emulator",
+      "app": "android.release"
+    },
+    "android.emu.debug": {
+      "device": "emulator",
+      "app": "android.debug"
+    },
+
+    "android.emu.local": {
+      "device": "emulator",
+      "app": "android.local"
+    }
+  }
+}
