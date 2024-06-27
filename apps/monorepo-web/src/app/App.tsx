@@ -1,15 +1,16 @@
 import styled from 'styled-components';
-
-import NxWelcome from './nx-welcome';
+import { useStore } from '@store'
 
 const StyledApp = styled.div`
   // Your style here
 `;
 
 export function App() {
+  const { count, increaseCount } = useStore()
   return (
     <StyledApp>
-      <NxWelcome title="monorepo-web" />
+      <button onClick={increaseCount}>Incrementar</button>
+      {count}
     </StyledApp>
   );
 }
